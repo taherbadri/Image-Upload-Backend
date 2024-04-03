@@ -18,6 +18,10 @@ const errorHandlerMiddleware = require("./middlewares/error-handler");
 const morgan = require("morgan");
 // --- import middlewares
 
+// --- import routes
+const productRoutes = require("./routes/productRouter");
+// --- import routes
+
 // --- use the json parser middleware and morgan
 app.use(express.json());
 app.use(morgan("tiny"));
@@ -28,6 +32,10 @@ app.get("/", (req, res) => {
 	return res.status(200).send("Image Upload Backend");
 });
 // --- set an initial route to display something on the screen
+
+// --- use the routes
+app.use("/api/v1/products", productRoutes);
+// --- use the routes
 
 // --- setup our error handling middlewares
 app.use(notFoundMiddleware);
