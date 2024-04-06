@@ -16,16 +16,25 @@ const connectDB = require("./db/connect");
 const notFoundMiddleware = require("./middlewares/not-found");
 const errorHandlerMiddleware = require("./middlewares/error-handler");
 const morgan = require("morgan");
+const fileUpload = require("express-fileupload");
+const cloudinary = require("cloudinary").v2;
 // --- import middlewares
 
 // --- import routes
 const productRoutes = require("./routes/productRouter");
 // --- import routes
 
-// --- use the json parser middleware and morgan
+// --- use the json parser middleware, morgan, cloudinary and fileupload
 app.use(express.json());
+app.use(express.static("./public"));
 app.use(morgan("tiny"));
-// --- use the json parser middleware and morgan
+app.use(fileUpload({ useTempFiles: true }));
+cloudinary.config({
+	cloud_name: process.env.CLOUD_NAME,
+	api_key: process.env.CLOUD_API_KEY,
+	api_secret: process.env.CLOUD_API_SECRET,
+});
+// --- use the json parser middleware, morgan, cloudinary and fileupload
 
 // --- set an initial route to display something on the screen
 app.get("/", (req, res) => {
